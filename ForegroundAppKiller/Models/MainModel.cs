@@ -44,6 +44,11 @@ public class MainModel : IDisposable
         var winHandle = WinApi.GetForegroundWindow();
         _ = WinApi.GetWindowThreadProcessId(winHandle, out var windowProcessId);
         var foregroundProcess = Process.GetProcessById(windowProcessId);
+        var selfProcessId = Process.GetCurrentProcess().Id;
+        
+        if (selfProcessId == foregroundProcess.Id)
+            return;
+        
         foregroundProcess.Kill(true);
     }
 
