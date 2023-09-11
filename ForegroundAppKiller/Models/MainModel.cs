@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using HooksLib;
 
 namespace ForegroundAppKiller.Models;
@@ -49,7 +50,14 @@ public class MainModel : IDisposable
         if (selfProcessId == foregroundProcess.Id)
             return;
         
-        foregroundProcess.Kill(true);
+        try
+        {
+            foregroundProcess.Kill(true);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     #region Dispose
